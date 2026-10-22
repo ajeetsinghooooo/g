@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kitchen Cruze - Order Delicious Food Online</title>
+    <meta name="description" content="Order freshly prepared food online from Kitchen Cruze. Enjoy starters, biryani, burgers, pizza, rolls, and more with fast delivery." />
+    <meta property="og:title" content="Kitchen Cruze - Order Delicious Food Online" />
+    <meta property="og:description" content="Order freshly prepared food online from Kitchen Cruze. Fast delivery and pickup options available." />
+    <meta property="og:type" content="restaurant.restaurant" />
+    <meta property="og:image" content="/logo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="/logo.png" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="apple-touch-icon" href="/logo.png" />
+    <script>
+      (function() {
+        // Prevent unhandled WebSocket connection errors in sandbox/preview
+        try {
+          var OriginalWebSocket = window.WebSocket;
+          window.WebSocket = function(url, protocols) {
+            var isViteHmr = false;
+            if (typeof protocols === 'string' && protocols.indexOf('vite') !== -1) isViteHmr = true;
+            if (Array.isArray(protocols) && protocols.some(function(p) { return typeof p === 'string' && p.indexOf('vite') !== -1; })) isViteHmr = true;
+            if (typeof url === 'string' && (url.indexOf('token=') !== -1 || url.indexOf(':3000') !== -1)) isViteHmr = true;
+
+            if (isViteHmr) {
+              var listeners = {};
+              return {
+                readyState: 1,
+                OPEN: 1,
+                CLOSED: 3,
+                CLOSING: 2,
+                CONNECTING: 0,
+                addEventListener: function(event, fn) {
+                  if (!listeners[event]) listeners[event] = [];
+                  listeners[event].push(fn);
+                  if (event === 'open') {
+                    setTimeout(function() {
+                      try { fn({ type: 'open' }); } catch (e) {}
+                    }, 0);
+                  }
+                },
+                removeEventListener: function(event, fn) {
+                  if (listeners[event]) {
+                    listeners[event] = listeners[event].filter(function(f) { return f !== fn; });
+                  }
+                },
+                send: function() {},
+                close: function() {
+                  this.readyState = 3;
+                  if (listeners['close']) {
+                    listeners['close'].forEach(function(f) {
+                      try { f({ type: 'close', wasClean: true }); } catch (e) {}
+                    });
+                  }
+                },
+                dispatchEvent: function() { return true; }
+              };
+            }
+            return new OriginalWebSocket(url, protocols);
+          };
+          window.WebSocket.prototype = OriginalWebSocket.prototype;
+          window.WebSocket.CONNECTING = 0;
+          window.WebSocket.OPEN = 1;
+          window.WebSocket.CLOSING = 2;
+          window.WebSocket.CLOSED = 3;
+        } catch (e) {}
+
+        window.addEventListener('unhandledrejection', function(e) {
+          var reason = e && e.reason;
+          var msg = (reason && (reason.message || reason.stack || String(reason))) || '';
+          if (msg.indexOf('WebSocket') !== -1 || msg.indexOf('vite') !== -1 || msg.indexOf('websocket') !== -1) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+          }
+        }, true);
+
+        window.addEventListener('error', function(e) {
+          var msg = (e && (e.message || '')) || '';
+          if (msg.indexOf('WebSocket') !== -1 || msg.indexOf('vite') !== -1 || msg.indexOf('websocket') !== -1) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+          }
+        }, true);
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "name": "Kitchen Cruze",
+      "image": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80",
+      "telephone": "+919876543210",
+      "email": "orders@kitchencruze.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Shop 14, Cruze Promenade, Near City Center",
+        "addressLocality": "Mumbai",
+        "postalCode": "400050",
+        "addressCountry": "IN"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "11:00",
+          "closes": "23:30"
+        }
+      ],
+      "servesCuisine": ["North Indian", "Biryani", "Chinese", "Continental", "Fast Food"],
+      "priceRange": "₹₹"
+    }
+    </script>
+    <!-- Real Razorpay Checkout Gateway SDK -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  </head>
+  <body class="font-['Plus_Jakarta_Sans',sans-serif] bg-slate-50 text-slate-900 antialiased selection:bg-amber-500 selection:text-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

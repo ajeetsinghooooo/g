@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "catalog_version": "1.0.0",
+  "name": "Kitchen Cruze",
+  "legal_name": "Kitchen Cruze Food Services Pvt. Ltd.",
+  "tagline": "Order Delicious Food Online with Fast Delivery",
+  "description": "Kitchen Cruze is a modern food ordering platform and cloud kitchen offering freshly prepared multi-cuisine meals, starters, biryani, burgers, pizzas, rolls, and beverages with live order tracking and multiple payment options.",
+  "website_url": "https://kitchencruze.com",
+  "documentation_url": "https://kitchencruze.com/llms.txt",
+  "sitemap_url": "https://kitchencruze.com/sitemap.xml",
+  "robots_url": "https://kitchencruze.com/robots.txt",
+  "contact": {
+    "phone": "+919876543210",
+    "whatsapp": "+919876543210",
+    "email": "orders@kitchencruze.com",
+    "address": "Shop 14, Cruze Promenade, Near City Center, Mumbai, Maharashtra 400050, India",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "postal_code": "400050",
+    "country": "IN",
+    "coordinates": {
+      "latitude": 19.076,
+      "longitude": 72.8777
+    }
+  },
+  "operating_hours": {
+    "timezone": "Asia/Kolkata",
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ],
+    "opens_at": "11:00",
+    "closes_at": "23:30",
+    "is_open_daily": true
+  },
+  "services": {
+    "home_delivery": true,
+    "pickup_takeaway": true,
+    "dine_in": false,
+    "live_order_tracking": true,
+    "whatsapp_ordering": true,
+    "table_reservations": true
+  },
+  "delivery_specifications": {
+    "max_radius_km": 10,
+    "free_delivery_threshold": 500,
+    "base_delivery_charge": 30,
+    "packaging_charge": 15,
+    "currency": "INR",
+    "currency_symbol": "₹"
+  },
+  "payment_methods": [
+    "Cash on Delivery (COD)",
+    "UPI (Google Pay, PhonePe, Paytm)",
+    "QR Code Direct Scan",
+    "Bank Transfer / IMPS / NEFT"
+  ],
+  "categories": [
+    {
+      "name": "Starters",
+      "description": "Crispy, savory appetizers and finger foods"
+    },
+    {
+      "name": "Biryani",
+      "description": "Slow-cooked aromatic basmati rice biryanis with saffron and authentic spices"
+    },
+    {
+      "name": "Main Course",
+      "description": "Rich curries, paneer specialties, chicken gravies, and Indian breads"
+    },
+    {
+      "name": "Burgers & Sandwiches",
+      "description": "Juicy grilled patties, gourmet cheese burgers, and toasted club sandwiches"
+    },
+    {
+      "name": "Pizzas",
+      "description": "Hand-stretched artisan thin-crust and cheese-burst pizzas"
+    },
+    {
+      "name": "Rolls & Wraps",
+      "description": "Freshly rolled frankies, kathi rolls, and tandoori wraps"
+    },
+    {
+      "name": "Beverages & Desserts",
+      "description": "Cool coolers, iced teas, shakes, gulab jamun, and artisanal desserts"
+    }
+  ],
+  "api_endpoints": [
+    {
+      "name": "Public Products API",
+      "path": "/api/products",
+      "method": "GET",
+      "description": "Returns full list of available food items, descriptions, prices, and tags",
+      "content_type": "application/json"
+    },
+    {
+      "name": "Public Categories API",
+      "path": "/api/categories",
+      "method": "GET",
+      "description": "Returns list of active menu categories",
+      "content_type": "application/json"
+    },
+    {
+      "name": "Public Offers API",
+      "path": "/api/offers",
+      "method": "GET",
+      "description": "Returns active discount coupons, minimum order limits, and rebate percentages",
+      "content_type": "application/json"
+    },
+    {
+      "name": "Public Restaurant Settings API",
+      "path": "/api/settings",
+      "method": "GET",
+      "description": "Returns current kitchen open/close status, delivery distance slabs, and store contacts",
+      "content_type": "application/json"
+    },
+    {
+      "name": "Order Status API",
+      "path": "/api/orders/:id",
+      "method": "GET",
+      "description": "Returns live status and delivery timeline for a specific order ID",
+      "content_type": "application/json"
+    }
+  ],
+  "ai_agent_capabilities": {
+    "browsing_support": true,
+    "structured_data": true,
+    "real_time_pricing": true,
+    "natural_language_queries": [
+      "What vegetarian starters does Kitchen Cruze offer?",
+      "What is the delivery radius for Kitchen Cruze in Mumbai?",
+      "Are there any active discount coupons today?",
+      "What are the opening and closing hours?"
+    ]
+  }
+}

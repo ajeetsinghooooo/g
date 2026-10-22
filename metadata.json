@@ -1,0 +1,7 @@
+{
+  "name": "Kitchen Cruze",
+  "description": "Premium mobile-first food ordering platform for Kitchen Cruze featuring dynamic menu, live cart, checkout, order tracking, WhatsApp ordering, and admin management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

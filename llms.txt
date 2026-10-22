@@ -1,0 +1,37 @@
+# Kitchen Cruze
+
+> Kitchen Cruze is a modern online food ordering platform and gourmet cloud kitchen. We offer freshly prepared multi-cuisine dishes including North Indian starters, aromatic biryanis, burgers, pizzas, frankie rolls, and refreshing beverages with fast home delivery and takeaway options.
+
+This document serves as the agentic discovery index for large language models, AI crawlers, and automated assistants browsing Kitchen Cruze.
+
+## Main Navigation & Public Pages
+
+- [Home](https://kitchencruze.com/): Official homepage featuring active restaurant status, top chef recommendations, and quick order links.
+- [Menu](https://kitchencruze.com/menu): Complete food menu categorized by course and dietary preferences (vegetarian and non-vegetarian) with real-time pricing and dish details.
+- [Offers & Promotions](https://kitchencruze.com/offers): Current discount codes, promotional coupon campaigns, and festival special deals.
+- [Login Portal](https://kitchencruze.com/login): Customer account authentication for tracking active orders and accessing saved addresses.
+- [Registration](https://kitchencruze.com/signup): New customer sign-up and profile creation.
+- [Cart & Checkout](https://kitchencruze.com/cart): Interactive cart, address selection, delivery fee estimation, and payment processing.
+
+## Machine-Readable & Agentic Catalogs
+
+- [AI Catalog (JSON)](https://kitchencruze.com/ai-catalog.json): Comprehensive structured JSON catalog of Kitchen Cruze for AI agents, detailing store capabilities, taxonomy, services, and API contracts.
+- [Menu Products API](https://kitchencruze.com/api/products): Live JSON feed of all food products, including title, description, category, price, calorie estimates, preparation time, and availability.
+- [Categories API](https://kitchencruze.com/api/categories): Structured list of food categories and menu organization.
+- [Special Offers API](https://kitchencruze.com/api/offers): Active promotional discount codes, percentage/flat discounts, and minimum order values.
+- [Store Settings API](https://kitchencruze.com/api/settings): Real-time store operating hours, delivery radius (km), contact numbers, and delivery charges.
+
+## Crawling & Reference Documents
+
+- [XML Sitemap](https://kitchencruze.com/sitemap.xml): Search engine and crawler XML index listing all canonical public URLs.
+- [Robots Exclusion Policy](https://kitchencruze.com/robots.txt): Machine access policies, allowed endpoints, and crawler guidance.
+
+## Location & Operating Information
+
+- **Brand Name**: Kitchen Cruze
+- **Address**: Shop 14, Cruze Promenade, Near City Center, Mumbai, Maharashtra 400050, India
+- **Coordinates**: Latitude 19.0760° N, Longitude 72.8777° E
+- **Operating Hours**: Monday – Sunday, 11:00 AM – 11:30 PM IST
+- **Phone**: +91 98765 43210 / +91 82799 97539
+- **Email**: orders@kitchencruze.com
+- **Accepted Payments**: Cash on Delivery (COD), UPI (Google Pay, PhonePe, Paytm), QR Code Scan, Direct Bank Transfer

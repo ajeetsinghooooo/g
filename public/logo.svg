@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" fill="none" width="100%" height="100%">
+  <!-- Kitchen Cruze Official Circular Badge Logo -->
+  <defs>
+    <!-- Warm Orange Brand Gradient -->
+    <linearGradient id="kcOrangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B00"/>
+      <stop offset="50%" stop-color="#EB5A00"/>
+      <stop offset="100%" stop-color="#D94800"/>
+    </linearGradient>
+
+    <!-- Warm Flame Gradient -->
+    <linearGradient id="kcFlameGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#E65100"/>
+      <stop offset="60%" stop-color="#FF6D00"/>
+      <stop offset="100%" stop-color="#FF9E1B"/>
+    </linearGradient>
+
+    <!-- Gold Accent Gradient -->
+    <linearGradient id="kcGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E5A93C"/>
+      <stop offset="50%" stop-color="#D49A37"/>
+      <stop offset="100%" stop-color="#B87D20"/>
+    </linearGradient>
+
+    <filter id="badgeShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <!-- Circular Badge Background -->
+  <circle cx="250" cy="250" r="240" fill="#FFFFFF" filter="url(#badgeShadow)"/>
+  
+  <!-- Outer Gold Ring -->
+  <circle cx="250" cy="250" r="236" stroke="url(#kcGold)" stroke-width="2.5" fill="none"/>
+
+  <!-- ========================================== -->
+  <!-- TOP EMBLEM: FLAME, KC MONOGRAM & SPOON     -->
+  <!-- ========================================== -->
+
+  <!-- Rising Flame Steam Wisps -->
+  <g id="steam-flames" transform="translate(230, 28)">
+    <!-- Center tall flame -->
+    <path d="M20 72 C12 55 16 35 24 20 C27 28 32 36 29 46 C34 38 35 28 33 16 C42 26 44 44 38 60 C36 65 31 72 20 72 Z" fill="url(#kcFlameGrad)"/>
+    <!-- Left flame -->
+    <path d="M12 70 C7 58 9 46 15 36 C16 42 18 47 17 54 C19 48 22 43 23 38 C26 48 24 60 17 68 C15 70 13 70 12 70 Z" fill="url(#kcFlameGrad)" opacity="0.9"/>
+    <!-- Right flame -->
+    <path d="M37 70 C41 58 39 46 34 38 C35 44 34 50 32 55 C35 48 37 42 39 36 C42 46 41 58 36 67 Z" fill="url(#kcFlameGrad)" opacity="0.9"/>
+  </g>
+
+  <!-- KC Monogram Group -->
+  <g id="kc-monogram" transform="translate(140, 70)">
+    <!-- C Letter (Right Crescent Arc) -->
+    <path d="M142 32 C178 32 204 56 208 92 L182 92 C178 68 160 52 138 52 C108 52 86 78 86 112 C86 146 108 172 138 172 C160 172 178 156 182 132 L208 132 C204 168 178 192 142 192 C94 192 60 156 60 112 C60 68 94 32 142 32 Z" fill="url(#kcOrangeGrad)"/>
+
+    <!-- K Letter (Left curved stem and connected upper/lower diagonals) -->
+    <!-- Left arch/curve of K -->
+    <path d="M64 34 C44 54 32 82 32 112 C32 142 44 170 64 190 L44 200 C20 176 6 146 6 112 C6 78 20 48 44 24 Z" fill="url(#kcOrangeGrad)"/>
+
+    <!-- Diagonal arm pointing up-right into the C -->
+    <path d="M72 112 L132 46 L154 62 L94 126 Z" fill="url(#kcOrangeGrad)"/>
+
+    <!-- Diagonal leg pointing down-right into the C -->
+    <path d="M88 108 L152 176 L130 192 L68 126 Z" fill="url(#kcOrangeGrad)"/>
+
+    <!-- Center Culinary Spoon (Forms the main vertical anchor of K) -->
+    <g id="culinary-spoon" transform="translate(132, 54)">
+      <!-- Spoon Bowl (Oval Head) -->
+      <path d="M16 0 C8 0 2 12 2 24 C2 38 8 48 16 52 C24 48 30 38 30 24 C30 12 24 0 16 0 Z" fill="url(#kcOrangeGrad)"/>
+      <!-- Spoon Handle extending downwards -->
+      <path d="M13 50 L13 145 C13 148 15 150 16 150 C17 150 19 148 19 145 L19 50 Z" fill="url(#kcOrangeGrad)"/>
+    </g>
+
+    <!-- Golden Leaves below the monogram -->
+    <g id="middle-leaves" transform="translate(72, 178)">
+      <!-- Left Leaf -->
+      <path d="M28 26 C16 26 6 16 2 2 C16 4 26 12 28 26 Z" fill="url(#kcGold)"/>
+      <!-- Right Leaf -->
+      <path d="M36 26 C48 26 58 16 62 2 C48 4 38 12 36 26 Z" fill="url(#kcGold)"/>
+      <!-- Center Stem Node -->
+      <circle cx="32" cy="26" r="3" fill="url(#kcGold)"/>
+    </g>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- MIDDLE TYPOGRAPHY: KITCHEN / CRUZE        -->
+  <!-- ========================================== -->
+
+  <!-- Left Accent Line for KITCHEN -->
+  <line x1="85" y1="272" x2="190" y2="272" stroke="url(#kcGold)" stroke-width="2.2" stroke-linecap="round"/>
+  <!-- Right Accent Line for KITCHEN -->
+  <line x1="310" y1="272" x2="415" y2="272" stroke="url(#kcGold)" stroke-width="2.2" stroke-linecap="round"/>
+
+  <!-- KITCHEN Text -->
+  <text x="250" y="348" font-family="'Outfit', 'Cinzel', 'Playfair Display', 'Times New Roman', serif" font-weight="900" font-size="58" letter-spacing="8" fill="#18181B" text-anchor="middle">
+    KITCHEN
+  </text>
+
+  <!-- = CRUZE = Group -->
+  <g transform="translate(250, 404)">
+    <!-- Left Double Dash -->
+    <line x1="-190" y1="-14" x2="-130" y2="-14" stroke="url(#kcOrangeGrad)" stroke-width="5" stroke-linecap="round"/>
+    <line x1="-175" y1="-2" x2="-145" y2="-2" stroke="url(#kcOrangeGrad)" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- CRUZE Text -->
+    <text x="0" y="4" font-family="'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif" font-weight="900" font-size="52" letter-spacing="7" fill="url(#kcOrangeGrad)" text-anchor="middle">
+      CRUZE
+    </text>
+
+    <!-- Right Double Dash -->
+    <line x1="130" y1="-14" x2="190" y2="-14" stroke="url(#kcOrangeGrad)" stroke-width="5" stroke-linecap="round"/>
+    <line x1="145" y1="-2" x2="175" y2="-2" stroke="url(#kcOrangeGrad)" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- BOTTOM LAUREL RIBBON ARC & LEAVES          -->
+  <!-- ========================================== -->
+  <g id="bottom-laurel">
+    <!-- Curved Golden Arc -->
+    <path d="M120 408 C158 440 202 454 250 454 C298 454 342 440 380 408" fill="none" stroke="url(#kcGold)" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Bottom Center Leaves -->
+    <g transform="translate(250, 436)">
+      <!-- Left Leaf -->
+      <path d="M-2 16 C-14 16 -24 6 -28 -8 C-14 -6 -4 2 -2 16 Z" fill="url(#kcGold)"/>
+      <!-- Right Leaf -->
+      <path d="M2 16 C14 16 24 6 28 -8 C14 -6 4 2 2 16 Z" fill="url(#kcGold)"/>
+      <!-- Leaf spine highlights -->
+      <line x1="-2" y1="16" x2="-18" y2="-2" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+      <line x1="2" y1="16" x2="18" y2="-2" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6"/>
+    </g>
+  </g>
+</svg>
