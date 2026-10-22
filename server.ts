@@ -422,6 +422,48 @@ async function startServer() {
     }
   });
 
+  app.post('/api/customer/firebase-login', (req: Request, res: Response) => {
+    try {
+      const { email, fullName, firebaseUid } = req.body;
+      if (!email) {
+        return res.status(400).json({ error: 'Email is required from Firebase authentication' });
+      }
+
+      let customer = storage.getCustomerByEmailOrUsername(email);
+      let customerData: any;
+
+      if (!customer) {
+        // Auto-register new customer via Firebase Auth
+        const generatedUsername =
+          email.split('@')[0].replace(/[^a-zA-Z0-9_]/g, '') + '_' + Math.floor(Math.random() * 1000);
+        customerData = storage.createCustomer({
+          fullName: fullName || email.split('@')[0],
+          username: generatedUsername,
+          email: email.toLowerCase(),
+          phone: '',
+          password: 'firebase_' + (firebaseUid || Date.now()),
+        });
+      } else {
+        if (customer.status === 'deactivated') {
+          return res.status(403).json({ error: 'Account has been deactivated. Please contact support.' });
+        }
+        const { passwordHash, salt, ...safe } = customer;
+        customerData = safe;
+      }
+
+      const token = generateToken({
+        id: customerData.id,
+        role: 'customer',
+        username: customerData.username,
+        email: customerData.email,
+      });
+
+      res.json({ token, customer: customerData });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
   app.get('/api/customer/me', requireCustomerAuth, (req: AuthenticatedRequest, res: Response) => {
     res.json(req.customer);
   });

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { Customer, StaffUser } from '../types';
 import { safeJson, apiFetch } from '../utils/api';
+import { auth, googleProvider, signInWithPopup, signOut } from '../firebase';
 
 interface AuthContextType {
   // Customer state
@@ -8,6 +9,7 @@ interface AuthContextType {
   customerToken: string | null;
   isCustomerAuthenticated: boolean;
   loginCustomer: (identifier: string, pass: string) => Promise<{ success: boolean; error?: string }>;
+  loginWithGoogle: () => Promise<{ success: boolean; error?: string }>;
   registerCustomer: (data: {
     fullName: string;
     username: string;
@@ -116,6 +118,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const loginWithGoogle = async () => {
+    try {
+      const cred = await signInWithPopup(auth, googleProvider);
+      const user = cred.user;
+      if (!user || !user.email) {
+        return { success: false, error: 'Could not retrieve email from Google Account' };
+      }
+      const res = await apiFetch('/api/customer/firebase-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: user.email,
+          fullName: user.displayName || user.email.split('@')[0],
+          firebaseUid: user.uid,
+          photoUrl: user.photoURL || undefined,
+        }),
+      });
+      const data = await safeJson(res, 'Google Sign-in failed');
+      setCustomer(data.customer);
+      setCustomerToken(data.token);
+      localStorage.setItem('kc_customer', JSON.stringify(data.customer));
+      localStorage.setItem('kc_customer_token', data.token);
+      return { success: true };
+    } catch (err: any) {
+      return { success: false, error: err.message || 'Google Sign-in cancelled or failed' };
+    }
+  };
+
   const registerCustomer = async (formData: {
     fullName: string;
     username: string;
@@ -148,6 +178,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCustomerToken(null);
     localStorage.removeItem('kc_customer');
     localStorage.removeItem('kc_customer_token');
+    try {
+      signOut(auth).catch(() => {});
+    } catch {}
   };
 
   const updateCustomerProfile = async (updates: Partial<Customer>): Promise<boolean> => {
@@ -211,6 +244,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         customerToken,
         isCustomerAuthenticated: Boolean(customerToken && customer),
         loginCustomer,
+        loginWithGoogle,
         registerCustomer,
         logoutCustomer,
         updateCustomerProfile,
