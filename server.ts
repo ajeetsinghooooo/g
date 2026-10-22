@@ -47,8 +47,8 @@ async function startServer() {
   const app = express();
   const PORT = Number(process.env.PORT) || 3000;
 
-  // Initialize Supabase PostgreSQL database connection & sync
-  await storage.initPostgres();
+  // Initialize persistent database storage
+  await storage.initStorage();
 
   // Middlewares - capture rawBody for Razorpay webhook HMAC verification
   app.use(
@@ -85,14 +85,14 @@ async function startServer() {
       status: 'ok',
       restaurant: 'Kitchen Cruze',
       version: '1.0.0',
-      database: storage.getPostgresStatus(),
+      database: storage.getDatabaseStatus(),
       timestamp: new Date().toISOString(),
     });
   });
 
   // Database status endpoint
   app.get('/api/database/status', (req: Request, res: Response) => {
-    res.json(storage.getPostgresStatus());
+    res.json(storage.getDatabaseStatus());
   });
 
   // --------------------------------------------------------------------------

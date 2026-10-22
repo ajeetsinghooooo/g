@@ -2227,7 +2227,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onNaviga
                     <h2 className="text-xl font-black text-white">Payment Gateway &amp; Method Settings</h2>
                   </div>
                   <p className="text-xs text-slate-400 mt-0.5">
-                    Configure customer payment options, UPI IDs, custom QR codes, and bank accounts. Changes sync directly to Supabase and reflect live on customer checkout.
+                    Configure customer payment options, UPI IDs, custom QR codes, and bank accounts. Changes reflect live immediately on customer checkout.
                   </p>
                 </div>
 
@@ -2235,7 +2235,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onNaviga
                   {paymentSettingsSuccess && (
                     <span className="text-xs font-bold text-emerald-400 flex items-center space-x-1.5 bg-emerald-500/10 px-3 py-1.5 rounded-xl border border-emerald-500/20">
                       <CheckCircle2 className="w-4 h-4" />
-                      <span>Saved to Supabase!</span>
+                      <span>Settings Saved!</span>
                     </span>
                   )}
                   <button
@@ -2639,7 +2639,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onNaviga
                 {paymentSettingsSuccess ? (
                   <span className="text-xs font-bold text-emerald-400 flex items-center space-x-1.5 bg-emerald-500/10 px-4 py-2 rounded-xl border border-emerald-500/20">
                     <CheckCircle2 className="w-4 h-4" />
-                    <span>Payment settings saved &amp; synced to Supabase PostgreSQL!</span>
+                    <span>Payment settings saved successfully!</span>
                   </span>
                 ) : (
                   <span className="text-xs text-slate-500">
@@ -2656,7 +2656,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onNaviga
                   {isSavingPayments ? (
                     <>
                       <RefreshCw className="w-4 h-4 animate-spin" />
-                      <span>Saving to Supabase...</span>
+                      <span>Saving Settings...</span>
                     </>
                   ) : (
                     <>

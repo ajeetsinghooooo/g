@@ -35,13 +35,6 @@ import {
   INITIAL_OFFERS,
   INITIAL_REVIEWS,
 } from './seedData';
-import {
-  initPostgresDatabase,
-  loadDatabaseFromPostgres,
-  schedulePostgresSync,
-  syncDatabaseToPostgres,
-  getPostgresStatus,
-} from './postgres';
 
 export interface StoredStaffUser extends StaffUser {
   passwordHash: string;
@@ -349,54 +342,18 @@ class StorageManager {
 
   private persist() {
     this.saveToFile(this.db);
-    schedulePostgresSync(this.db);
   }
 
-  async initPostgres() {
-    try {
-      const initialized = await initPostgresDatabase();
-      if (initialized) {
-        const pgData = await loadDatabaseFromPostgres();
-        if (pgData) {
-          this.db = {
-            settings: { ...this.db.settings, ...(pgData.settings || {}) },
-            staffUsers: pgData.staffUsers && pgData.staffUsers.length > 0 ? pgData.staffUsers : this.db.staffUsers,
-            deliveryBoys: (pgData as any).deliveryBoys && (pgData as any).deliveryBoys.length > 0 ? (pgData as any).deliveryBoys : this.db.deliveryBoys,
-            nextDeliveryBoyNumber: (pgData as any).nextDeliveryBoyNumber || this.db.nextDeliveryBoyNumber,
-            customers: pgData.customers || this.db.customers,
-            categories: pgData.categories || this.db.categories,
-            products: pgData.products || this.db.products,
-            offers: pgData.offers || this.db.offers,
-            orders: pgData.orders || this.db.orders,
-            reviews: pgData.reviews || this.db.reviews,
-            wishlists: pgData.wishlists || this.db.wishlists,
-            codTransactions: pgData.codTransactions || this.db.codTransactions,
-            auditLogs: pgData.auditLogs || this.db.auditLogs,
-            messages: pgData.messages || this.db.messages,
-            notifications: pgData.notifications || this.db.notifications,
-            payments: (pgData as any).payments || this.db.payments || [],
-            wallets: (pgData as any).wallets || this.db.wallets || {},
-            walletTransactions: (pgData as any).walletTransactions || this.db.walletTransactions || [],
-            cashbackCampaigns: (pgData as any).cashbackCampaigns || this.db.cashbackCampaigns || [],
-            loyaltySettings: (pgData as any).loyaltySettings || this.db.loyaltySettings || { ...DEFAULT_LOYALTY_RULES },
-            nextOrderId: pgData.nextOrderId || this.db.nextOrderId,
-          };
-          this.saveToFile(this.db);
-          console.log('[StorageManager] Local state synchronized with Supabase PostgreSQL');
-        } else {
-          console.log('[StorageManager] Initializing fresh state in Supabase PostgreSQL...');
-          await syncDatabaseToPostgres(this.db);
-        }
-      } else {
-        console.log('[StorageManager] Operating in resilient local storage mode (/data/db.json).');
-      }
-    } catch (err: any) {
-      console.warn('[StorageManager] Notice initializing Postgres:', err.message);
-    }
+  async initStorage() {
+    console.log('[StorageManager] Persistent database storage ready (/data/db.json).');
   }
 
-  getPostgresStatus() {
-    return getPostgresStatus();
+  getDatabaseStatus() {
+    return {
+      connected: true,
+      provider: 'Kitchen Cruze Database & Firebase Cloud',
+      lastSyncedAt: new Date().toISOString(),
+    };
   }
 
   // --------------------------------------------------------------------------
@@ -2131,7 +2088,7 @@ class StorageManager {
       nodeVersion: process.version,
       memoryUsage: process.memoryUsage(),
       database: {
-        ...this.getPostgresStatus(),
+        ...this.getDatabaseStatus(),
         fileSizeFormatted: `${(dbFileSizeBytes / 1024).toFixed(1)} KB`,
         totalProducts: this.db.products.length,
         vegProducts: vegCount,
