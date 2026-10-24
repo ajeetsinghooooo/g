@@ -324,23 +324,47 @@ async function startServer() {
     }
   });
 
-  // Admin Change Password API
-  app.post('/api/admin/change-password', requireAdminAuth, (req: AuthenticatedRequest, res: Response) => {
+  // Admin Change Password API (Permanently Locked for Admin)
+  app.post('/api/admin/change-password', requireAdminAuth, (_req: AuthenticatedRequest, res: Response) => {
+    return res.status(403).json({
+      error: 'Admin credentials (Kitchencruze12) are permanent and locked for security. Cannot be modified.',
+    });
+  });
+
+  // Admin View Staff Accounts
+  app.get('/api/admin/staff', requireAdminAuth, (_req: AuthenticatedRequest, res: Response) => {
     try {
-      const { currentPassword, newPassword, confirmPassword } = req.body;
-      if (!currentPassword || !newPassword || !confirmPassword) {
-        return res.status(400).json({ error: 'All password fields are required' });
-      }
-      if (newPassword !== confirmPassword) {
-        return res.status(400).json({ error: 'New password and confirm password do not match' });
+      const staff = storage.getAllStaffUsers();
+      res.json(staff);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  // Admin Update Chef or Delivery Credentials
+  app.put('/api/admin/staff/:role', requireAdminAuth, (req: AuthenticatedRequest, res: Response) => {
+    try {
+      const { role } = req.params;
+      const { username, password } = req.body;
+
+      if (role === 'admin') {
+        return res.status(403).json({
+          error: 'Admin credentials (Kitchencruze12) are permanent and locked for security. Cannot be modified.',
+        });
       }
 
-      const result = storage.changeAdminPassword(req.adminUsername!, currentPassword, newPassword);
+      if (role !== 'chef' && role !== 'delivery') {
+        return res.status(400).json({
+          error: 'Invalid role. Only chef and delivery credentials can be updated.',
+        });
+      }
+
+      const result = storage.updateStaffCredentials(role as 'chef' | 'delivery', username, password);
       if (!result.success) {
         return res.status(400).json({ error: result.error });
       }
 
-      res.json({ success: true, message: 'Admin password successfully updated' });
+      res.json({ success: true, message: `Successfully updated ${role} credentials` });
     } catch (err: any) {
       res.status(500).json({ error: err.message });
     }
@@ -417,48 +441,6 @@ async function startServer() {
 
       const { passwordHash, salt, ...safe } = customer;
       res.json({ token, customer: safe });
-    } catch (err: any) {
-      res.status(500).json({ error: err.message });
-    }
-  });
-
-  app.post('/api/customer/firebase-login', (req: Request, res: Response) => {
-    try {
-      const { email, fullName, firebaseUid } = req.body;
-      if (!email) {
-        return res.status(400).json({ error: 'Email is required from Firebase authentication' });
-      }
-
-      let customer = storage.getCustomerByEmailOrUsername(email);
-      let customerData: any;
-
-      if (!customer) {
-        // Auto-register new customer via Firebase Auth
-        const generatedUsername =
-          email.split('@')[0].replace(/[^a-zA-Z0-9_]/g, '') + '_' + Math.floor(Math.random() * 1000);
-        customerData = storage.createCustomer({
-          fullName: fullName || email.split('@')[0],
-          username: generatedUsername,
-          email: email.toLowerCase(),
-          phone: '',
-          password: 'firebase_' + (firebaseUid || Date.now()),
-        });
-      } else {
-        if (customer.status === 'deactivated') {
-          return res.status(403).json({ error: 'Account has been deactivated. Please contact support.' });
-        }
-        const { passwordHash, salt, ...safe } = customer;
-        customerData = safe;
-      }
-
-      const token = generateToken({
-        id: customerData.id,
-        role: 'customer',
-        username: customerData.username,
-        email: customerData.email,
-      });
-
-      res.json({ token, customer: customerData });
     } catch (err: any) {
       res.status(500).json({ error: err.message });
     }

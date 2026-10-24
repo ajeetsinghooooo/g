@@ -68,6 +68,7 @@ import { DeliveryManagementSection } from './DeliveryManagementSection';
 import { WalletsManagementSection } from './WalletsManagementSection';
 import { LoyaltySettingsSection } from './LoyaltySettingsSection';
 import { CashbackCampaignsSection } from './CashbackCampaignsSection';
+import { StaffSecuritySection } from '../../components/admin/StaffSecuritySection';
 
 interface AdminDashboardViewProps {
   onNavigate: (path: string) => void;
@@ -83,7 +84,8 @@ type AdminTab =
   | 'reviews'
   | 'payments'
   | 'customers'
-  | 'settings';
+  | 'settings'
+  | 'staff';
 
 export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onNavigate }) => {
   const { adminToken, adminEmail, logoutAdmin } = useAuth();
@@ -1175,6 +1177,7 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onNaviga
             { id: 'reviews', label: 'Customer Reviews', icon: Star, badge: reviews.length },
             { id: 'customers', label: 'Customers', icon: Users, badge: customers.length },
             { id: 'settings', label: 'Restaurant Settings', icon: SettingsIcon },
+            { id: 'staff', label: 'Staff & Security', icon: ShieldCheck },
           ].map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -3549,6 +3552,11 @@ export const AdminDashboardView: React.FC<AdminDashboardViewProps> = ({ onNaviga
                 </div>
               </div>
             </form>
+          )}
+
+          {/* 7. STAFF & SECURITY CREDENTIALS TAB */}
+          {activeTab === 'staff' && (
+            <StaffSecuritySection adminToken={adminToken} onNavigate={onNavigate} />
           )}
         </main>
       </div>

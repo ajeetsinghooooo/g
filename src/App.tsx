@@ -165,7 +165,7 @@ const MainApp: React.FC = () => {
   }
 
   // 2. Chef Kitchen Portal Routes
-  if (currentPath === '/chef-login') {
+  if (currentPath === '/chef/login' || currentPath === '/chef-login') {
     return <ChefLoginView onNavigate={navigate} />;
   }
 
@@ -177,7 +177,7 @@ const MainApp: React.FC = () => {
   }
 
   // 3. Delivery Fleet Portal Routes
-  if (currentPath === '/delivery-login') {
+  if (currentPath === '/delivery/login' || currentPath === '/delivery-login') {
     return <DeliveryLoginView onNavigate={navigate} />;
   }
 

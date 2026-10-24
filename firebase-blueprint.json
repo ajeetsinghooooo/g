@@ -2,104 +2,59 @@
   "entities": {
     "Product": {
       "title": "Product",
-      "description": "Menu food dish or beverage item available for order",
+      "description": "Menu item offered by Kitchen Cruze",
       "type": "object",
       "properties": {
         "id": { "type": "string", "maxLength": 128 },
-        "name": { "type": "string", "maxLength": 100 },
-        "description": { "type": "string", "maxLength": 500 },
+        "name": { "type": "string", "maxLength": 128 },
+        "category": { "type": "string", "maxLength": 128 },
         "price": { "type": "number" },
-        "discountPrice": { "type": "number" },
-        "category": { "type": "string", "maxLength": 50 },
-        "isVeg": { "type": "boolean" },
-        "isAvailable": { "type": "boolean" },
+        "description": { "type": "string", "maxLength": 1000 },
         "image": { "type": "string", "maxLength": 2048 },
-        "createdAt": { "type": "string", "format": "date-time" },
-        "updatedAt": { "type": "string", "format": "date-time" }
+        "isVeg": { "type": "boolean" },
+        "inStock": { "type": "boolean" },
+        "isRecommended": { "type": "boolean" },
+        "rating": { "type": "number" },
+        "reviewCount": { "type": "number" }
       },
-      "required": ["name", "price", "category", "isVeg", "isAvailable"]
+      "required": ["id", "name", "category", "price", "isVeg"]
     },
     "Category": {
       "title": "Category",
-      "description": "Food menu classification category",
+      "description": "Food menu category",
       "type": "object",
       "properties": {
         "id": { "type": "string", "maxLength": 128 },
-        "name": { "type": "string", "maxLength": 50 },
-        "icon": { "type": "string", "maxLength": 50 },
-        "sortOrder": { "type": "number" },
-        "isActive": { "type": "boolean" }
+        "name": { "type": "string", "maxLength": 128 },
+        "icon": { "type": "string", "maxLength": 128 },
+        "displayOrder": { "type": "number" }
       },
-      "required": ["name", "isActive"]
-    },
-    "Order": {
-      "title": "Order",
-      "description": "Customer food order with tracking and delivery details",
-      "type": "object",
-      "properties": {
-        "id": { "type": "string", "maxLength": 128 },
-        "customerId": { "type": "string", "maxLength": 128 },
-        "customerName": { "type": "string", "maxLength": 100 },
-        "customerPhone": { "type": "string", "maxLength": 20 },
-        "customerEmail": { "type": "string", "maxLength": 100 },
-        "orderType": { "type": "string", "enum": ["Delivery", "Pickup"] },
-        "status": {
-          "type": "string",
-          "enum": ["Pending", "Confirmed", "Preparing", "Out for Delivery", "Delivered", "Cancelled"]
-        },
-        "paymentMethod": { "type": "string", "enum": ["COD", "Razorpay", "UPI", "Wallet"] },
-        "paymentStatus": { "type": "string", "enum": ["Pending", "Paid", "Failed"] },
-        "subtotal": { "type": "number" },
-        "deliveryCharge": { "type": "number" },
-        "discount": { "type": "number" },
-        "grandTotal": { "type": "number" },
-        "createdAt": { "type": "string", "format": "date-time" },
-        "updatedAt": { "type": "string", "format": "date-time" }
-      },
-      "required": ["orderType", "status", "paymentMethod", "paymentStatus", "grandTotal"]
+      "required": ["id", "name"]
     },
     "Review": {
       "title": "Review",
-      "description": "Authentic public customer feedback and ratings",
+      "description": "Customer feedback and ratings for Kitchen Cruze dishes",
       "type": "object",
       "properties": {
         "id": { "type": "string", "maxLength": 128 },
-        "customerName": { "type": "string", "maxLength": 100 },
-        "productName": { "type": "string", "maxLength": 100 },
+        "userName": { "type": "string", "maxLength": 128 },
+        "dishName": { "type": "string", "maxLength": 128 },
         "rating": { "type": "number" },
-        "comment": { "type": "string", "maxLength": 1000 },
-        "photoUrl": { "type": "string", "maxLength": 2048 },
-        "verifiedPurchase": { "type": "boolean" },
-        "createdAt": { "type": "string", "format": "date-time" }
+        "comment": { "type": "string", "maxLength": 2000 },
+        "createdAt": { "type": "string", "maxLength": 64 }
       },
-      "required": ["customerName", "rating", "comment"]
-    },
-    "Admin": {
-      "title": "Admin",
-      "description": "Authorized restaurant administrator record",
-      "type": "object",
-      "properties": {
-        "email": { "type": "string", "format": "email", "maxLength": 100 },
-        "role": { "type": "string", "enum": ["admin", "superadmin"] },
-        "createdAt": { "type": "string", "format": "date-time" }
-      },
-      "required": ["email", "role"]
+      "required": ["id", "userName", "rating", "comment"]
     },
     "RestaurantSettings": {
       "title": "RestaurantSettings",
-      "description": "Central restaurant configuration and operational settings",
+      "description": "General restaurant operational settings",
       "type": "object",
       "properties": {
-        "name": { "type": "string", "maxLength": 100 },
-        "phone": { "type": "string", "maxLength": 20 },
-        "email": { "type": "string", "maxLength": 100 },
-        "address": { "type": "string", "maxLength": 255 },
-        "openingTime": { "type": "string", "maxLength": 20 },
-        "closingTime": { "type": "string", "maxLength": 20 },
-        "minimumOrder": { "type": "number" },
-        "freeDeliveryThreshold": { "type": "number" },
+        "name": { "type": "string", "maxLength": 128 },
+        "tagline": { "type": "string", "maxLength": 256 },
         "isAcceptingOrders": { "type": "boolean" },
-        "updatedAt": { "type": "string", "format": "date-time" }
+        "minOrderAmount": { "type": "number" },
+        "deliveryRadiusKm": { "type": "number" }
       },
       "required": ["name", "isAcceptingOrders"]
     }
@@ -107,27 +62,19 @@
   "firestore": {
     "/products/{productId}": {
       "schema": { "$ref": "#/entities/Product" },
-      "description": "Menu items available in the store"
+      "description": "Dishes and beverage catalogue"
     },
     "/categories/{categoryId}": {
       "schema": { "$ref": "#/entities/Category" },
-      "description": "Food menu categories"
-    },
-    "/orders/{orderId}": {
-      "schema": { "$ref": "#/entities/Order" },
-      "description": "Customer food orders and status"
+      "description": "Food categories list"
     },
     "/reviews/{reviewId}": {
       "schema": { "$ref": "#/entities/Review" },
-      "description": "Public customer reviews and ratings"
+      "description": "Public customer reviews"
     },
-    "/admins/{adminUid}": {
-      "schema": { "$ref": "#/entities/Admin" },
-      "description": "Authorized restaurant admins"
-    },
-    "/settings/restaurant": {
+    "/settings/{settingId}": {
       "schema": { "$ref": "#/entities/RestaurantSettings" },
-      "description": "Store operational settings"
+      "description": "Restaurant operational configurations"
     }
   }
 }

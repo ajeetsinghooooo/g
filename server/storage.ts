@@ -175,14 +175,32 @@ class StorageManager {
         const content = fs.readFileSync(DB_FILE, 'utf-8');
         const data = JSON.parse(content);
         
-        // Guarantee staff users exist with proper roles
+        // Guarantee staff users exist and Admin is PERMANENT & LOCKED: Kitchencruze12 / amdin@12#21
         const initialStaff = createInitialStaffUsers();
         let staffUsers: StoredStaffUser[] = data.staffUsers || [];
-        for (const defaultStaff of initialStaff) {
-          const existing = staffUsers.find((s) => s.username.toLowerCase() === defaultStaff.username.toLowerCase());
-          if (!existing) {
-            staffUsers.push(defaultStaff);
-          }
+
+        // Always enforce locked Admin credentials
+        const adminAuth = hashPassword('amdin@12#21');
+        const adminUser = staffUsers.find((s) => s.role === 'admin');
+        if (adminUser) {
+          adminUser.username = 'Kitchencruze12';
+          adminUser.passwordHash = adminAuth.hash;
+          adminUser.salt = adminAuth.salt;
+          adminUser.status = 'active';
+        } else {
+          staffUsers.push(initialStaff[0]);
+        }
+
+        // Ensure Chef exists (default: Cafekitchencruze12 / Cafe@12#113)
+        const chefUser = staffUsers.find((s) => s.role === 'chef');
+        if (!chefUser) {
+          staffUsers.push(initialStaff[1]);
+        }
+
+        // Ensure Delivery exists (default: Diliveryboy112 / Diliveryboy@12#1)
+        const deliveryUser = staffUsers.find((s) => s.role === 'delivery');
+        if (!deliveryUser) {
+          staffUsers.push(initialStaff[2]);
         }
 
         // Initialize delivery boys list
@@ -351,7 +369,7 @@ class StorageManager {
   getDatabaseStatus() {
     return {
       connected: true,
-      provider: 'Kitchen Cruze Database & Firebase Cloud',
+      provider: 'Kitchen Cruze Persistent Database',
       lastSyncedAt: new Date().toISOString(),
     };
   }
@@ -545,24 +563,45 @@ class StorageManager {
     return this.db.staffUsers.map(({ passwordHash, salt, ...safe }) => safe);
   }
 
-  changeAdminPassword(username: string, currentPass: string, newPass: string): { success: boolean; error?: string } {
-    const admin = this.getStaffUserByUsername(username);
-    if (!admin || admin.role !== 'admin') {
-      return { success: false, error: 'Admin user not found' };
+  // Admin credentials cannot be changed by anyone (Permanent & Locked)
+  changeAdminPassword(username: string, _currentPass: string, _newPass: string): { success: boolean; error?: string } {
+    return {
+      success: false,
+      error: 'Admin credentials (Kitchencruze12) are permanent and locked for security. Cannot be modified.',
+    };
+  }
+
+  // Admin can update Chef and Delivery Partner credentials
+  updateStaffCredentials(role: 'chef' | 'delivery', newUsername?: string, newPassword?: string): { success: boolean; error?: string } {
+    const staff = this.db.staffUsers.find((s) => s.role === role);
+    if (!staff) {
+      return { success: false, error: `${role} account not found` };
     }
 
-    if (!verifyPassword(currentPass, admin.passwordHash, admin.salt)) {
-      return { success: false, error: 'Current password does not match' };
+    if (newUsername && newUsername.trim()) {
+      const trimmed = newUsername.trim();
+      // Check collision
+      const collision = this.db.staffUsers.find((s) => s.id !== staff.id && s.username.toLowerCase() === trimmed.toLowerCase());
+      if (collision) {
+        return { success: false, error: `Username "${trimmed}" is already taken by another account.` };
+      }
+      staff.username = trimmed;
+      if (role === 'delivery' && this.db.deliveryBoys.length > 0) {
+        this.db.deliveryBoys[0].username = trimmed;
+      }
     }
 
-    if (!newPass || newPass.length < 6) {
-      return { success: false, error: 'New password must be at least 6 characters long' };
+    if (newPassword && newPassword.trim()) {
+      const pass = newPassword.trim();
+      if (pass.length < 6) {
+        return { success: false, error: 'Password must be at least 6 characters long' };
+      }
+      const updated = hashPassword(pass);
+      staff.passwordHash = updated.hash;
+      staff.salt = updated.salt;
     }
 
-    const updated = hashPassword(newPass);
-    admin.passwordHash = updated.hash;
-    admin.salt = updated.salt;
-    this.addAuditLog(admin.username, 'admin', 'PASSWORD_CHANGED', 'Admin changed their password successfully.');
+    this.addAuditLog('Kitchencruze12', 'admin', 'STAFF_CREDENTIALS_UPDATED', `Admin updated credentials for ${role} (username: ${staff.username}).`);
     this.persist();
     return { success: true };
   }
